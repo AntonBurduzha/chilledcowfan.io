@@ -118,38 +118,6 @@ const unresolvedStyles: TextmateStyles = {
   important: ['terminal.ansiMagenta', 'terminal.ansiBrightMagenta'],
   caution: ['terminal.ansiYellow', 'terminal.ansiBrightYellow'],
   warning: ['terminal.ansiRed', 'terminal.ansiBrightRed'],
-  // For Giscus syntax highlighting only
-  comment: ['comment', 'punctuation.definition.comment', 'foreground'],
-  constant: ['constant.language.boolean', 'constant.language', 'foreground'],
-  entity: ['entity.name.function', 'support.function', 'function', 'foreground'],
-  tag: [
-    'entity.name.tag',
-    'punctuation.definition.tag',
-    'punctuation.definition.tag.html',
-    'meta.tag',
-    'foreground',
-  ],
-  keyword: [
-    'keyword',
-    'punctuation.definition.keyword',
-    'keyword.operator',
-    'foreground',
-  ],
-  string: ['string', 'string.quoted', 'string.value', 'string variable', 'foreground'],
-  variable: [
-    'variable',
-    'variable.language',
-    'variable.other',
-    'support.variable',
-    'foreground',
-  ],
-  regexp: [
-    'string.regexp',
-    'string.regexp.source',
-    'constant.other.character-class.regexp',
-    'string',
-    'foreground',
-  ],
   // Terminal colors for user customization only, not used by default
   blue: ['terminal.ansiBlue', 'terminal.ansiBrightBlue'],
   green: ['terminal.ansiGreen', 'terminal.ansiBrightGreen'],
@@ -281,33 +249,14 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
   }
 }
 
-export class SeriesGroup extends PostsCollationGroup {
-  // Private constructor to enforce the use of the static build method
-  private constructor(title: string, url: string, items: Collation<'posts'>[]) {
-    super(title, url, items)
-  }
-  // Factory method to create a SeriesGroup instance with async data fetching
-  static async build(posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
-    const sortedPosts = posts || (await getSortedPosts())
-    const seriesGroup = new SeriesGroup('Series', '/series', [])
-    sortedPosts.forEach((post) => {
-      const frontmatterSeries = post.data.series
-      if (frontmatterSeries) {
-        seriesGroup.add(post, frontmatterSeries)
-      }
-    })
-    return seriesGroup
-  }
-}
-
 export class TagsGroup extends PostsCollationGroup {
   // Private constructor to enforce the use of the static build method
   private constructor(title: string, url: string, items: Collation<'posts'>[]) {
     super(title, url, items)
   }
 
-  // Factory method to create a SeriesGroup instance with async data fetching
-  static async build(posts?: CollectionEntry<'posts'>[]): Promise<SeriesGroup> {
+  // Factory method to create a TagsGroup instance with async data fetching
+  static async build(posts?: CollectionEntry<'posts'>[]): Promise<TagsGroup> {
     const sortedPosts = posts || (await getSortedPosts())
     const tagsGroup = new TagsGroup('Tags', '/tags', [])
     sortedPosts.forEach((post) => {

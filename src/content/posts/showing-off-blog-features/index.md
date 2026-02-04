@@ -120,75 +120,6 @@ testing123
 testing123
 :::
 
-## Character Chats
-
-```md title="Custom character chat" wrap
-:::duck
-**Did you know?** You can easily create custom character chats for your blog with MultiTerm!
-:::
-```
-
-:::duck
-**Did you know?** You can easily create custom character chats for your blog with MultiTerm!
-:::
-
-### Adding Your Own
-
-To add your own character, first add an image file to the top-level `/public` directory in your cloned MultiTerm repo. Astro cannot automatically optimize image assets from markdown plugins, so make sure to compress the image to a web-friendly size (<100kb).
-
-I recommend Google's free [Squoosh](https://squoosh.app) web app for creating super small webp files. The characters here have been resized to 300 pixels wide and exported to webp with 75% quality using Squoosh.
-
-After you've added your image, update the `characters` option in `site.config.ts` with your newly added image file and restart the development server.
-
-### Character Conversations
-
-When there are multiple character chats in a row, the order of the chat image and chat bubble reverses to give the chat more of a back-and-forth appearance.
-
-```md title="Sequential character chats"
-:::owl
-This is a cool feature!
-:::
-
-:::unicorn
-I agree!
-:::
-```
-
-:::owl
-This is a cool feature!
-:::
-
-:::unicorn
-I agree!
-:::
-
-You can specify the alignment (`left` or `right`) to override the default `left, right, left, ...` ordering.
-
-```md wrap title="Character chats with specific alignment"
-:::unicorn{align="right"}
-Over here, to the right!
-:::
-```
-
-:::unicorn{align="right"}
-Over here, to the right!
-:::
-
-## GitHub Cards
-
-GitHub overview cards heavily inspired by [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus).
-
-```md title="GitHub repo card example in markdown"
-::github{repo="stelcodes/multiterm-astro"}
-```
-
-::github{repo="stelcodes/multiterm-astro"}
-
-```md wrap=true title="GitHub user card example in markdown"
-::github{user="withastro"}
-```
-
-::github{user="withastro"}
 
 ## Emoji :star_struck:
 
@@ -208,27 +139,6 @@ Good morning! :sleeping: :coffee: :pancakes:
 >
 > At the time of writing, [emoji v16](https://emojipedia.org/emoji-16.0) is not supported yet. These emojis can be included literally but they do not have shortcodes and will not be wrapped.
 
-## LaTeX/KaTeX Math Support
-
-You can also display inline math via [remark-math and rehype-katex](https://github.com/remarkjs/remark-math).
-
-```txt title="Rendering inline math with KaTeX"
-Make those equations pretty! $ \frac{a}{b} \cdot b = a $
-```
-
-Make those equations pretty! $ \frac{a}{b} \cdot b = a $
-
-Check out the [KaTeX docs](https://katex.org/docs/supported) to learn about the syntax.
-
-```md title="Rendering a block of KaTeX" wrap
-$$
-a + ar + ar^2 + ar^3 + \dots + ar^{n-1} = \displaystyle\sum_{k=0}^{n - 1}ar^k = a \bigg(\dfrac{1 - r^n}{1 -r}\bigg)
-$$
-```
-
-$$
-a + ar + ar^2 + ar^3 + \dots + ar^{n-1} = \displaystyle\sum_{k=0}^{n - 1}ar^k = a \bigg(\dfrac{1 - r^n}{1 -r}\bigg)
-$$
 
 ## HTML Elements
 

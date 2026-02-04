@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@import 'katex/dist/katex.css';
 
 /* https://fontsource.org/fonts/jetbrains-mono/install */
 /* jetbrains-mono-latin-wght-normal */
@@ -566,10 +565,6 @@ article img {
 
   th {
     @apply uppercase text-left;
-  }
-
-  .katex-display {
-    @apply overflow-x-auto py-2 my-4;
   }
 
   fieldset {

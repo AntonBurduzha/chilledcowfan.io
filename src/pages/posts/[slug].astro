@@ -1,20 +1,17 @@
 ---
 import type { GetStaticPaths } from 'astro'
 import Layout from '~/layouts/Layout.astro'
-import { SeriesGroup, TagsGroup, getSortedPosts } from '~/utils'
+import { TagsGroup, getSortedPosts } from '~/utils'
 import PostPreview from '~/components/PostPreview.astro'
 import DividerText from '~/components/DividerText.astro'
-import { getCollection, render, type CollectionEntry } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 import PostAddendum from '~/components/PostAddendum.astro'
 import TableOfContents from '~/components/TableOfContents.astro'
 import { Image } from 'astro:assets'
-import GiscusLoader from '~/components/GiscusLoader.astro'
-import siteConfig from '~/site.config'
 import Tags from '~/components/Tags.astro'
 import PostInfo from '~/components/PostInfo.astro'
 import ScrollUpButton from '~/components/ScrollUpButton.astro'
 import type { Collation } from '~/types'
-import ChevronsRight from '~/icons/chevrons-right.svg'
 import { getPostSequenceContext } from '~/utils'
 
 export const getStaticPaths = (async () => {
@@ -30,9 +27,11 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths
 
 const { post, prev, next } = Astro.props
+console.log(prev, next)
 const postData = post.data
 const { headings, Content: PostContent } = await render(post)
 const addendum = await getCollection('addendum')
+
 let AddendumContent
 let addendumAvatarImage
 if (addendum.length > 0) {
@@ -43,21 +42,6 @@ if (addendum.length > 0) {
 }
 
 const sortedPosts = await getSortedPosts()
-
-// Get series posts if this post is part of a series
-let series: Collation<'posts'> | undefined
-let nextPostInSeries: CollectionEntry<'posts'> | undefined
-if (postData.series) {
-  const seriesGroup = await SeriesGroup.build(sortedPosts)
-  series = seriesGroup.match(postData.series)
-  if (!series) {
-    // This should not happen if series data is correct
-    throw new Error(`Series "${postData.series}" not found`)
-  }
-  const sequenceContext = getPostSequenceContext(post, series.entries)
-  nextPostInSeries = sequenceContext.next
-}
-const showSeries = series && series.entries.length > 1
 
 let tags: Collation<'posts'>[] | undefined
 if (postData.tags && postData.tags.length > 0) {
@@ -108,17 +92,6 @@ if (postData.tags && postData.tags.length > 0) {
     </div>
   </article>
   {
-    nextPostInSeries && (
-      <a
-        href={`/posts/${nextPostInSeries.id}`}
-        class="button justify-center -mt-8 mb-8 !whitespace-normal text-center flex gap-2 sm:gap-3 items-center"
-      >
-        <span>Next: {nextPostInSeries.data.title}</span>
-        <ChevronsRight class="size-5 hidden sm:block" />
-      </a>
-    )
-  }
-  {
     AddendumContent && (
       <PostAddendum avatarImage={addendumAvatarImage}>
         <AddendumContent />
@@ -126,28 +99,13 @@ if (postData.tags && postData.tags.length > 0) {
     )
   }
   {
-    showSeries && series ? (
-      <section>
-        <DividerText text={`${series.title} Series`} />
-        {series.entries.map((seriesPost) => (
-          <PostPreview post={seriesPost} />
-        ))}
-      </section>
-    ) : prev || next ? (
+    prev || next ? (
       <section>
         <DividerText text="More Posts" />
         {prev && <PostPreview post={prev} />}
         {next && <PostPreview post={next} />}
       </section>
     ) : null
-  }
-  {
-    siteConfig.giscus && (
-      <section>
-        <DividerText text="Comments" />
-        <GiscusLoader />
-      </section>
-    )
   }
   <ScrollUpButton />
 </Layout>
