@@ -1,52 +1,52 @@
 ---
-import type { GetStaticPaths } from 'astro'
-import Layout from '~/layouts/Layout.astro'
-import { TagsGroup, getSortedPosts } from '~/utils'
-import PostPreview from '~/components/PostPreview.astro'
-import DividerText from '~/components/DividerText.astro'
-import { getCollection, render } from 'astro:content'
-import PostAddendum from '~/components/PostAddendum.astro'
-import TableOfContents from '~/components/TableOfContents.astro'
-import { Image } from 'astro:assets'
-import Tags from '~/components/Tags.astro'
-import PostInfo from '~/components/PostInfo.astro'
-import ScrollUpButton from '~/components/ScrollUpButton.astro'
-import type { Collation } from '~/types'
-import { getPostSequenceContext } from '~/utils'
+import type { GetStaticPaths } from 'astro';
+import Layout from '~/layouts/Layout.astro';
+import { TagsGroup, getSortedPosts } from '~/utils';
+import PostPreview from '~/components/PostPreview.astro';
+import DividerText from '~/components/DividerText.astro';
+import { getCollection, render } from 'astro:content';
+import PostAddendum from '~/components/PostAddendum.astro';
+import TableOfContents from '~/components/TableOfContents.astro';
+import { Image } from 'astro:assets';
+import Tags from '~/components/Tags.astro';
+import PostInfo from '~/components/PostInfo.astro';
+import ScrollUpButton from '~/components/ScrollUpButton.astro';
+import type { Collation } from '~/types';
+import { getPostSequenceContext } from '~/utils';
 
 export const getStaticPaths = (async () => {
-  const posts = await getSortedPosts()
+  const posts = await getSortedPosts();
   return posts.map((post) => {
     // Get sequence context for the post
-    const { prev, next } = getPostSequenceContext(post, posts)
+    const { prev, next } = getPostSequenceContext(post, posts);
     return {
       params: { slug: post.id },
       props: { post, prev, next },
-    }
-  })
-}) satisfies GetStaticPaths
+    };
+  });
+}) satisfies GetStaticPaths;
 
-const { post, prev, next } = Astro.props
-console.log(prev, next)
-const postData = post.data
-const { headings, Content: PostContent } = await render(post)
-const addendum = await getCollection('addendum')
+const { post, prev, next } = Astro.props;
+console.log(prev, next);
+const postData = post.data;
+const { headings, Content: PostContent } = await render(post);
+const addendum = await getCollection('addendum');
 
-let AddendumContent
-let addendumAvatarImage
+let AddendumContent;
+let addendumAvatarImage;
 if (addendum.length > 0) {
-  const addendumEntry = addendum[0]
-  const { Content } = await render(addendumEntry)
-  AddendumContent = Content
-  addendumAvatarImage = addendumEntry.data.avatarImage
+  const addendumEntry = addendum[0];
+  const { Content } = await render(addendumEntry);
+  AddendumContent = Content;
+  addendumAvatarImage = addendumEntry.data.avatarImage;
 }
 
-const sortedPosts = await getSortedPosts()
+const sortedPosts = await getSortedPosts();
 
-let tags: Collation<'posts'>[] | undefined
+let tags: Collation<'posts'>[] | undefined;
 if (postData.tags && postData.tags.length > 0) {
-  const tagsGroup = await TagsGroup.build(sortedPosts)
-  tags = tagsGroup.matchMany(postData.tags)
+  const tagsGroup = await TagsGroup.build(sortedPosts);
+  tags = tagsGroup.matchMany(postData.tags);
 }
 ---
 

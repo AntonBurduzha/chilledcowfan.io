@@ -1,15 +1,15 @@
 ---
-import { dateString } from '~/utils'
-import { render, type CollectionEntry } from 'astro:content'
+import { dateString } from '~/utils';
+import { render, type CollectionEntry } from 'astro:content';
 
 interface Props {
-  post: CollectionEntry<'posts'>
-  class?: string
+  post: CollectionEntry<'posts'>;
+  class?: string;
 }
 
-const { post, class: className } = Astro.props
-const { remarkPluginFrontmatter } = await render(post)
-const { minutesRead } = remarkPluginFrontmatter
+const { post, class: className } = Astro.props;
+const { remarkPluginFrontmatter } = await render(post);
+const { minutesRead } = remarkPluginFrontmatter;
 ---
 
 <div class:list={[className, 'text-foreground/80']}>

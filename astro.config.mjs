@@ -1,23 +1,23 @@
 // @ts-check
-import { defineConfig } from 'astro/config'
-import tailwindcss from '@tailwindcss/vite'
-import sitemap from '@astrojs/sitemap'
-import mdx from '@astrojs/mdx'
-import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import expressiveCode from 'astro-expressive-code'
-import siteConfig from './src/site.config'
-import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
-import remarkDescription from './src/plugins/remark-description' /* Add description to frontmatter */
-import remarkReadingTime from './src/plugins/remark-reading-time' /* Add reading time to frontmatter */
-import rehypeTitleFigure from './src/plugins/rehype-title-figure' /* Wraps titles in figures */
-import rehypeExternalLinks from 'rehype-external-links'
-import remarkDirective from 'remark-directive' /* Handle ::: directives as nodes */
-import rehypeUnwrapImages from 'rehype-unwrap-images'
-import { remarkAdmonitions } from './src/plugins/remark-admonitions' /* Add admonitions */
-import remarkUnknownDirectives from './src/plugins/remark-unknown-directives' /* Custom plugin to handle unknown admonitions */
-import remarkGemoji from './src/plugins/remark-gemoji' /* for shortcode emoji support */
-import rehypePixelated from './src/plugins/rehype-pixelated' /* Custom plugin to handle pixelated images */
+import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
+import mdx from '@astrojs/mdx';
+import { rehypeHeadingIds } from '@astrojs/markdown-remark';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import expressiveCode from 'astro-expressive-code';
+import siteConfig from './src/site.config';
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers';
+import remarkDescription from './src/plugins/remark-description'; /* Add description to frontmatter */
+import remarkReadingTime from './src/plugins/remark-reading-time'; /* Add reading time to frontmatter */
+import rehypeTitleFigure from './src/plugins/rehype-title-figure'; /* Wraps titles in figures */
+import rehypeExternalLinks from 'rehype-external-links';
+import remarkDirective from 'remark-directive'; /* Handle ::: directives as nodes */
+import rehypeUnwrapImages from 'rehype-unwrap-images';
+import { remarkAdmonitions } from './src/plugins/remark-admonitions'; /* Add admonitions */
+import remarkUnknownDirectives from './src/plugins/remark-unknown-directives'; /* Custom plugin to handle unknown admonitions */
+import remarkGemoji from './src/plugins/remark-gemoji'; /* for shortcode emoji support */
+import rehypePixelated from './src/plugins/rehype-pixelated'; /* Custom plugin to handle pixelated images */
 
 // https://astro.build/config
 export default defineConfig({
@@ -71,4 +71,4 @@ export default defineConfig({
   experimental: {
     contentIntellisense: true,
   },
-})
+});

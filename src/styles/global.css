@@ -50,6 +50,12 @@ header {
   navigation: auto;
 }
 
+html.theme-transition::view-transition-old(root),
+html.theme-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 * {
   /* Custom scrollbar styles */
   scrollbar-width: thin;

@@ -120,7 +120,6 @@ testing123
 testing123
 :::
 
-
 ## Emoji :star_struck:
 
 Emojis can be added in markdown by including a literal emoji character or a GitHub shortcode. You can browse an unofficial database [here](https://emojibase.dev/emojis?shortcodePresets=github).
@@ -138,7 +137,6 @@ Good morning! :sleeping: :coffee: :pancakes:
 > ```
 >
 > At the time of writing, [emoji v16](https://emojipedia.org/emoji-16.0) is not supported yet. These emojis can be included literally but they do not have shortcodes and will not be wrapped.
-
 
 ## HTML Elements
 

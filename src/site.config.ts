@@ -1,4 +1,4 @@
-import type { SiteConfig } from '~/types'
+import type { SiteConfig } from '~/types';
 
 const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
@@ -26,106 +26,11 @@ const config: SiteConfig = {
   // This value is used in the astro.config.mjs file and in the "Search" component to make sure pagefind links match this setting.
   // It is not recommended to change this, since most links existing in the site currently do not have trailing slashes.
   trailingSlashes: false,
-  // The navigation links to display in the header.
-  navLinks: [
-    {
-      name: 'Home',
-      url: '/',
-    },
-    {
-      name: 'About',
-      url: '/about',
-    },
-    {
-      name: 'Archive',
-      url: '/posts',
-    },
-    {
-      name: 'GitHub',
-      url: 'https://github.com/stelcodes/multiterm-astro',
-      external: true,
-    },
-  ],
   // The theming configuration for the site.
   themes: {
-    // The theming mode. One of "single" | "select" | "light-dark-auto".
-    mode: 'select',
-    // The default theme identifier, used when themeMode is "select" or "light-dark-auto".
-    // Make sure this is one of the themes listed in `themes` or "auto" for "light-dark-auto" mode.
+    mode: 'light-dark',
     default: 'catppuccin-mocha',
-    // Shiki themes to bundle with the site.
-    // https://expressive-code.com/guides/themes/#using-bundled-themes
-    // These will be used to theme the entire site along with syntax highlighting.
-    // To use light-dark-auto mode, only include a light and a dark theme in that order.
-    // include: [
-    //   'github-light',
-    //   'github-dark',
-    // ]
-    include: [
-      'andromeeda',
-      'aurora-x',
-      'ayu-dark',
-      'catppuccin-frappe',
-      'catppuccin-latte',
-      'catppuccin-macchiato',
-      'catppuccin-mocha',
-      'dark-plus',
-      'dracula',
-      'dracula-soft',
-      'everforest-dark',
-      'everforest-light',
-      'github-dark',
-      'github-dark-default',
-      'github-dark-dimmed',
-      'github-dark-high-contrast',
-      'github-light',
-      'github-light-default',
-      'github-light-high-contrast',
-      'gruvbox-dark-hard',
-      'gruvbox-dark-medium',
-      'gruvbox-dark-soft',
-      'gruvbox-light-hard',
-      'gruvbox-light-medium',
-      'gruvbox-light-soft',
-      'houston',
-      'kanagawa-dragon',
-      'kanagawa-lotus',
-      'kanagawa-wave',
-      'laserwave',
-      'light-plus',
-      'material-theme',
-      'material-theme-darker',
-      'material-theme-lighter',
-      'material-theme-ocean',
-      'material-theme-palenight',
-      'min-dark',
-      'min-light',
-      'monokai',
-      'night-owl',
-      'nord',
-      'one-dark-pro',
-      'one-light',
-      'plastic',
-      'poimandres',
-      'red',
-      'rose-pine',
-      'rose-pine-dawn',
-      'rose-pine-moon',
-      'slack-dark',
-      'slack-ochin',
-      'snazzy-light',
-      'solarized-dark',
-      'solarized-light',
-      'synthwave-84',
-      'tokyo-night',
-      'vesper',
-      'vitesse-black',
-      'vitesse-dark',
-      'vitesse-light',
-    ],
-    // Optional overrides for specific themes to customize colors.
-    // Their values can be either a literal color (hex, rgb, hsl) or another theme key.
-    // See themeKeys list in src/types.ts for available keys to override and reference.
+    include: ['catppuccin-latte', 'catppuccin-mocha'],
     overrides: {
       // Improve readability for aurora-x theme
       // 'aurora-x': {
@@ -151,14 +56,12 @@ const config: SiteConfig = {
   },
   // Social links to display in the footer.
   socialLinks: {
-    github: 'https://github.com/stelcodes/multiterm-astro',
-    mastodon: 'https://github.com/stelcodes/multiterm-astro',
-    email: 'https://github.com/stelcodes/multiterm-astro',
-    linkedin: 'https://github.com/stelcodes/multiterm-astro',
-    bluesky: 'https://github.com/stelcodes/multiterm-astro',
-    twitter: 'https://github.com/stelcodes/multiterm-astro',
+    github: 'https://github.com/AntonBurduzha',
+    email: 'anton.burduzha@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/anton-burduzha/',
+    x: 'https://x.com/chilledcowfan',
     rss: true, // Set to true to include an RSS feed link in the footer
   },
-}
+};
 
-export default config
+export default config;

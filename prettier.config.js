@@ -1,7 +1,5 @@
-// Typescript file would be better but it's currently experimental
-
 const config = {
-  semi: false,
+  semi: true,
   singleQuote: true,
   trailingComma: 'all',
   printWidth: 90,
@@ -16,6 +14,6 @@ const config = {
       },
     },
   ],
-}
+};
 
-export default config
+export default config;

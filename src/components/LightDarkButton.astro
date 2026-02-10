@@ -1,0 +1,83 @@
+---
+import IconSun from '~/icons/sun.svg';
+import IconMoon from '~/icons/moon.svg';
+import siteConfig from '~/site.config';
+let lightTheme = siteConfig.themes.include[0];
+let darkTheme = siteConfig.themes.include[1];
+---
+
+<button
+  id="theme-change-button"
+  class="block ml-auto"
+  data-light={lightTheme}
+  data-dark={darkTheme}
+>
+  <IconSun id="icon-light" class="hidden size-6 text-accent" />
+  <IconMoon id="icon-dark" class="hidden size-6 text-accent" />
+</button>
+
+<script>
+  const themeButton = document.getElementById('theme-change-button');
+  const lightThemeId = themeButton?.getAttribute('data-light');
+  const darkThemeId = themeButton?.getAttribute('data-dark');
+  const sunIcon = themeButton?.querySelector('#icon-light');
+  const moonIcon = themeButton?.querySelector('#icon-dark');
+  const supportsViewTransition = typeof document.startViewTransition === "function";
+    // Check if user prefers reduced motion (accessibility setting)
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const updateIcons = (theme: string) => {
+    if (theme === lightThemeId) {
+      sunIcon?.classList.remove('hidden');
+      moonIcon?.classList.add('hidden');
+    } else if (theme === darkThemeId) {
+      sunIcon?.classList.add('hidden');
+      moonIcon?.classList.remove('hidden');
+    }
+  };
+  const getCurrentTheme = () => localStorage.getItem('data-theme') || darkThemeId as string;
+  const currentTheme = getCurrentTheme();
+  updateIcons(currentTheme);
+  themeButton?.addEventListener('click', (event: MouseEvent) => {
+    const currentTheme = getCurrentTheme();
+    let newTheme = currentTheme === lightThemeId ? darkThemeId : lightThemeId;
+    if (newTheme) {
+      updateIcons(newTheme);
+      if (!supportsViewTransition || prefersReducedMotion) {
+        localStorage.setItem('data-theme', newTheme);
+        document.documentElement.setAttribute('data-theme', newTheme);
+        return;
+      }
+      const x = event.clientX;
+      const y = event.clientY;
+      // Calculate distance to the farthest corner (radius needed to fill screen)
+      const endRadius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+      );
+      document.documentElement.classList.add('theme-transition');
+      const transition = document.startViewTransition(() => {
+          localStorage.setItem('data-theme', newTheme);
+          document.documentElement.setAttribute('data-theme', newTheme);
+      });
+      transition.ready.then(() => {
+        document.documentElement.animate(
+            {
+                clipPath: [
+                    `circle(0px at ${x}px ${y}px)`,
+                    `circle(${endRadius}px at ${x}px ${y}px)`
+                ],
+            },
+            {
+                duration: 600,
+                easing: "ease-in-out",
+                pseudoElement: "::view-transition-new(root)",
+            }
+        );
+      });
+      transition.finished.then(() => {
+        document.documentElement.classList.remove('theme-transition');
+      });
+    }
+  });
+</script>

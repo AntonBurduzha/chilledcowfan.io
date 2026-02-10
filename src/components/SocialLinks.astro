@@ -1,18 +1,16 @@
 ---
-import type { SocialLinks } from '~/types'
-import IconGithub from '~/icons/github.svg'
-import IconMastodon from '~/icons/mastodon.svg'
-import IconTwitter from '~/icons/twitter.svg'
-import IconLinkedin from '~/icons/linkedin.svg'
-import IconBluesky from '~/icons/bluesky.svg'
-import IconEmail from '~/icons/email.svg'
-import IconRss from '~/icons/rss.svg'
+import type { SocialLinks } from '~/types';
+import IconGithub from '~/icons/github.svg';
+import IconLinkedin from '~/icons/linkedin.svg';
+import IconEmail from '~/icons/email.svg';
+import IconX from '~/icons/x.svg';
+import IconRss from '~/icons/rss.svg';
 
 interface Props {
-  socialLinks: SocialLinks
+  socialLinks: SocialLinks;
 }
 
-const { socialLinks } = Astro.props
+const { socialLinks } = Astro.props;
 ---
 
 <div class="flex w-full max-w-md items-center justify-between">
@@ -30,32 +28,6 @@ const { socialLinks } = Astro.props
     )
   }
   {
-    socialLinks.mastodon && (
-      <a
-        href={socialLinks.mastodon}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="social-link"
-      >
-        <span class="sr-only">Mastodon</span>
-        <IconMastodon class="size-7" />
-      </a>
-    )
-  }
-  {
-    socialLinks.twitter && (
-      <a
-        href={socialLinks.twitter}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="social-link"
-      >
-        <span class="sr-only">Twitter</span>
-        <IconTwitter class="size-7" />
-      </a>
-    )
-  }
-  {
     socialLinks.linkedin && (
       <a
         href={socialLinks.linkedin}
@@ -69,15 +41,15 @@ const { socialLinks } = Astro.props
     )
   }
   {
-    socialLinks.bluesky && (
+    socialLinks.x && (
       <a
-        href={socialLinks.bluesky}
+        href={socialLinks.x}
         target="_blank"
         rel="noopener noreferrer"
         class="social-link"
       >
-        <span class="sr-only">Bluesky</span>
-        <IconBluesky class="size-7" />
+        <span class="sr-only">X</span>
+        <IconX class="size-7" />
       </a>
     )
   }
