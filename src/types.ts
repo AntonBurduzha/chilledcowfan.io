@@ -56,12 +56,7 @@ export interface CollationGroup<CollectionType extends keyof DataEntryMap> {
   title: string;
   url: string;
   collations: Collation<CollectionType>[];
-  // Return this.collations to allow chaining
-  sortCollationsAlpha(): Collation<CollectionType>[];
-  sortCollationsMostRecent(): Collation<CollectionType>[];
-  sortCollationsLargest(): Collation<CollectionType>[];
   add(item: CollectionEntry<CollectionType>, rawKey: string): void;
-  match(title: string): Collation<CollectionType> | undefined;
   matchMany(titles: string[]): Collation<CollectionType>[] | undefined;
 }
 

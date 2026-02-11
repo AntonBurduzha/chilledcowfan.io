@@ -26,10 +26,7 @@ if (
   avatarBase64 = `data:image/jpeg;base64,${avatarData.toString('base64')}`;
 }
 
-const defaultTheme =
-  siteConfig.themes.default === 'auto'
-    ? siteConfig.themes.include[0]
-    : siteConfig.themes.default;
+const defaultTheme = siteConfig.themes.default;
 
 const themeStyles = await resolveThemeColorStyles(
   [defaultTheme],

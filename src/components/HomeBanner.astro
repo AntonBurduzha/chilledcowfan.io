@@ -5,15 +5,13 @@ import type { FrontmatterImage } from '~/types';
 
 interface Props {
   avatarImage?: FrontmatterImage;
-  githubCalendar?: string;
+  githubUserName?: string;
 }
-const { avatarImage, githubCalendar } = Astro.props;
+const { avatarImage, githubUserName } = Astro.props;
 ---
 
-<div class="my-6 md:mx-2">
-  <div
-    class="flex flex-col sm:flex-row items-center justify-around sm:gap-5 max-w-full mb-6"
-  >
+<div class="my-2 md:mx-2">
+  <div class="flex flex-col sm:flex-row items-center justify-around sm:gap-5 max-w-full">
     {
       avatarImage && (
         <Image
@@ -33,5 +31,5 @@ const { avatarImage, githubCalendar } = Astro.props;
       </div>
     </div>
   </div>
-  {githubCalendar && <GitHubActivityCalendar username={githubCalendar} />}
+  {githubUserName && <GitHubActivityCalendar username={githubUserName} />}
 </div>

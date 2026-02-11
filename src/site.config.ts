@@ -4,7 +4,7 @@ const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
   site: 'https://multiterm.stelclementine.com',
   // The name of your site, used in the title and for SEO.
-  title: 'MultiTerm',
+  title: 'Chilledcow.fan',
   // The description of your site, used for SEO and RSS feed.
   description:
     'A coder-ready Astro blog theme with 59 of your favorite color schemes to choose from',
@@ -15,7 +15,7 @@ const config: SiteConfig = {
   // Path to the image used for generating social media previews.
   // Needs to be a square JPEG file due to limitations of the social card generator.
   // Try https://squoosh.app/ to easily convert images to JPEG.
-  socialCardAvatarImage: './src/content/avatar.jpg',
+  socialCardAvatarImage: './src/content/avatar.jpeg',
   // Font imported from @fontsource or elsewhere, used for the entire site.
   // To change this see src/styles/global.css and import a different font.
   font: 'JetBrains Mono Variable',
@@ -30,31 +30,21 @@ const config: SiteConfig = {
   themes: {
     mode: 'light-dark',
     default: 'catppuccin-mocha',
-    include: ['catppuccin-latte', 'catppuccin-mocha'],
+    include: ['min-light', 'catppuccin-mocha'],
     overrides: {
-      // Improve readability for aurora-x theme
-      // 'aurora-x': {
-      //   background: '#292929FF',
-      //   foreground: '#DDDDDDFF',
-      //   warning: '#FF7876FF',
-      //   important: '#FF98FFFF',
-      //   note: '#83AEFFFF',
-      // },
-      // Make the GitHub dark theme a little cuter
-      // 'github-light': {
-      //   accent: 'magenta',
-      //   heading1: 'magenta',
-      //   heading2: 'magenta',
-      //   heading3: 'magenta',
-      //   heading4: 'magenta',
-      //   heading5: 'magenta',
-      //   heading6: 'magenta',
-      //   separator: 'magenta',
-      //   link: 'list',
-      // },
+      'min-light': {
+        accent: '#6f51a6',
+        heading1: '#6f51a6',
+        heading2: '#6f51a6',
+        heading3: '#6f51a6',
+        heading4: '#6f51a6',
+        heading5: '#6f51a6',
+        heading6: '#6f51a6',
+        separator: '#6f51a6',
+        link: '#6f51a6',
+      },
     },
   },
-  // Social links to display in the footer.
   socialLinks: {
     github: 'https://github.com/AntonBurduzha',
     email: 'anton.burduzha@gmail.com',

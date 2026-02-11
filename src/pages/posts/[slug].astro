@@ -4,9 +4,7 @@ import Layout from '~/layouts/Layout.astro';
 import { TagsGroup, getSortedPosts } from '~/utils';
 import PostPreview from '~/components/PostPreview.astro';
 import DividerText from '~/components/DividerText.astro';
-import { getCollection, render } from 'astro:content';
-import PostAddendum from '~/components/PostAddendum.astro';
-import TableOfContents from '~/components/TableOfContents.astro';
+import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import Tags from '~/components/Tags.astro';
 import PostInfo from '~/components/PostInfo.astro';
@@ -27,19 +25,9 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { post, prev, next } = Astro.props;
-console.log(prev, next);
-const postData = post.data;
-const { headings, Content: PostContent } = await render(post);
-const addendum = await getCollection('addendum');
 
-let AddendumContent;
-let addendumAvatarImage;
-if (addendum.length > 0) {
-  const addendumEntry = addendum[0];
-  const { Content } = await render(addendumEntry);
-  AddendumContent = Content;
-  addendumAvatarImage = addendumEntry.data.avatarImage;
-}
+const postData = post.data;
+const { Content: PostContent } = await render(post);
 
 const sortedPosts = await getSortedPosts();
 
@@ -83,21 +71,12 @@ if (postData.tags && postData.tags.length > 0) {
         }
       </div>
     </div>
-    <!-- <hr class="border-accent/10 border-2 rounded-xl hidden lg:block" /> -->
     <div class="flex flex-col xl:gap-1 2xl:gap-18 xl:flex-row xl:items-start">
-      {postData.toc && headings.length > 0 && <TableOfContents headings={headings} />}
       <div class="mb-5 xl:min-w-full 2xl:min-w-full prose">
         <PostContent />
       </div>
     </div>
   </article>
-  {
-    AddendumContent && (
-      <PostAddendum avatarImage={addendumAvatarImage}>
-        <AddendumContent />
-      </PostAddendum>
-    )
-  }
   {
     prev || next ? (
       <section>

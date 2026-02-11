@@ -203,25 +203,6 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
     this.collations = collations;
   }
 
-  sortCollationsAlpha(): Collation<'posts'>[] {
-    this.collations.sort((a, b) => a.title.localeCompare(b.title));
-    return this.collations;
-  }
-
-  sortCollationsLargest(): Collation<'posts'>[] {
-    this.collations.sort((a, b) => b.entries.length - a.entries.length);
-    return this.collations;
-  }
-
-  sortCollationsMostRecent(): Collation<'posts'>[] {
-    this.collations.sort((a, b) => {
-      const aDate = a.entries[a.entries.length - 1].data.published;
-      const bDate = b.entries[b.entries.length - 1].data.published;
-      return aDate < bDate ? 1 : -1;
-    });
-    return this.collations;
-  }
-
   add(item: CollectionEntry<'posts'>, collationTitle: string): void {
     const collationTitleSlug = slug(collationTitle.trim());
     const existing = this.collations.find((i) => i.titleSlug === collationTitleSlug);
@@ -238,10 +219,6 @@ abstract class PostsCollationGroup implements CollationGroup<'posts'> {
         entries: [item],
       });
     }
-  }
-
-  match(rawKey: string): Collation<'posts'> | undefined {
-    return this.collations.find((entry) => entry.title === rawKey);
   }
 
   matchMany(rawKeys: string[]): Collation<'posts'>[] {

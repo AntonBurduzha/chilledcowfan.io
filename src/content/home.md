@@ -1,8 +1,9 @@
 ---
 avatarImage:
-  src: './avatar.jpg'
-  alt: 'My avatar'
-githubCalendar: 'stelcodes'
+  src: './avatar.jpeg'
+  alt: 'My photo'
+githubUserName: 'AntonBurduzha'
 ---
 
-Welcome to the example site. This site is meant to show off my custom Astro theme/template **MultiTerm** which creates a coder-ready blog complete with an interactive theme changer, RSS, sitemap, tagging, and markdown extensions.
+Hey, I’m Anton. I specialize in software engineering with a focus on front-end development, having worked in the field for over 8 years. My core focus is handling customer requests and implementing them with the highest quality standards.
+Feel free to reach out if you have any questions about my past experience and want to collaborate.
