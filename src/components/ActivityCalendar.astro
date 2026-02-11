@@ -18,9 +18,12 @@ import type {
   GitHubActivityWeek,
   GitHubActivityMonthLabel,
 } from '~/types';
+import gitlabContributions from '~/data/gitlab-contributions.json';
+import ActivityTooltip from './ActivityTooltip.astro';
 
 interface Props {
-  username: string;
+  githubUserName: string;
+  gitlabUsername?: string;
   year?: number;
 }
 
@@ -56,6 +59,31 @@ async function fetchData(
   validateActivities(data.contributions);
 
   return data;
+}
+
+function calcLevels(
+  activities: Array<GitHubActivityDay>,
+  maxLevel: number,
+): Array<GitHubActivityDay> {
+  const counts = activities.map((a) => a.count).filter((c) => c > 0);
+  if (counts.length === 0) return activities;
+  counts.sort((a, b) => a - b);
+  const thresholds: number[] = [];
+  for (let i = 1; i <= maxLevel; i++) {
+    const idx = Math.ceil((i / maxLevel) * counts.length) - 1;
+    thresholds.push(counts[idx]!);
+  }
+  return activities.map((a) => {
+    if (a.count === 0) return { ...a, level: 0 as const };
+    let level = 1;
+    for (let i = 1; i < thresholds.length; i++) {
+      if (a.count > thresholds[i - 1]!) level = i + 1;
+    }
+    return {
+      ...a,
+      level: Math.min(level, maxLevel) as GitHubActivityDay['level'],
+    };
+  });
 }
 
 function calcColorScale([start, end]: [string, string], steps: number): Array<string> {
@@ -160,16 +188,35 @@ function getMonthLabels(
     });
 }
 
-const { username, year = 'last' } = Astro.props;
+const { githubUserName, gitlabUsername, year = 'last' } = Astro.props;
 
-const data = await fetchData(username, year);
+const data = await fetchData(githubUserName, year);
+
+// Skip if the most recent entry is over a year old (stale data)
+const gitlabDates = Object.keys(gitlabContributions);
+const lastGitlabDate = gitlabDates[gitlabDates.length - 1];
+const oneYearAgo = new Date();
+oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+const gitlabStale = !lastGitlabDate || parseISO(lastGitlabDate) < oneYearAgo;
+
+const showGitlab = !!gitlabUsername && !gitlabStale;
+const gitlabData: Record<string, number> = showGitlab ? gitlabContributions : {};
+const gitlabTotal = Object.values(gitlabData).reduce((sum, c) => sum + c, 0);
+
+// Merge GitLab counts into GitHub activities
+const mergedActivities = data.contributions.map((activity) => {
+  const gitlabCount = gitlabData[activity.date] ?? 0;
+  return {
+    ...activity,
+    count: activity.count + gitlabCount,
+  };
+});
 
 const themeFromColorscheme: [string, string] = [
   'var(--theme-background)',
   'var(--theme-accent)',
 ];
 
-const totalCount = year === 'last' ? data.total.lastYear : data.total[year];
 const maxLevel = 4;
 const blockMargin = 3;
 const labelMargin = 8;
@@ -182,7 +229,11 @@ const hideTotalCount = false;
 const weekStart = 0; // 0 = Sunday, 1 = Monday, etc.
 
 const colorScale = calcColorScale(themeFromColorscheme, maxLevel + 1);
-const activities = data.contributions;
+
+// Recalculate levels based on merged counts
+const activities = calcLevels(mergedActivities, maxLevel);
+const totalCount =
+  (year === 'last' ? data.total.lastYear : data.total[year]) + gitlabTotal;
 
 const firstActivity = activities[0];
 const activityYear = getYear(parseISO(firstActivity.date));
@@ -213,24 +264,12 @@ const width = weeks.length * (blockSize + blockMargin) - blockMargin;
 const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin;
 ---
 
-<article
-  id="github-activity-calendar"
-  class="w-max max-w-full flex flex-col gap-2 text-sm"
->
-  <a
-    href={`https://github.com/${username}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="text-xl font-semibold text-accent"
-  >
-    GitHub Activity
-  </a>
+<article id="activity-calendar" class="w-max max-w-full flex flex-col gap-2 text-sm relative">
+  <div class="text-xl font-semibold flex items-center gap-2 flex-wrap">
+    <span>Activity</span>
+  </div>
   <div
-    class="max-w-full overflow-x-auto pt-0.5"
-    style={{
-      // Don't cover the calendar with the scrollbar.
-      scrollbarGutter: 'stable',
-    }}
+    class="max-w-full overflow-x-auto pt-2"
   >
     <svg
       class="block visible"
@@ -261,7 +300,7 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin;
               if (!activity) return null;
               return (
                 <rect
-                  class="stroke-foreground/10"
+                  class="stroke-foreground/10 activity-cell"
                   x={0}
                   y={labelHeight + (blockSize + blockMargin) * dayIndex}
                   width={blockSize}
@@ -271,6 +310,7 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin;
                   fill={colorScale[activity.level]}
                   data-date={activity.date}
                   data-level={activity.level}
+                  data-count={activity.count}
                 />
               );
             })}
@@ -279,6 +319,7 @@ const height = labelHeight + (blockSize + blockMargin) * 7 - blockMargin;
       }
     </svg>
   </div>
+  <ActivityTooltip />
   {
     !(hideTotalCount && hideColorLegend) && (
       <footer class="flex flex-col sm:flex-row sm:justify-between gap-x-1 gap-y-2">

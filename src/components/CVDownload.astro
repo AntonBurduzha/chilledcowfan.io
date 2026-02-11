@@ -1,0 +1,19 @@
+---
+import fs from 'node:fs';
+import IconCV from '~/icons/cv.svg';
+
+const cvExists = fs.existsSync('public/cv.pdf');
+---
+
+{
+  cvExists && (
+    <a
+      href="/cv.pdf"
+      download="Anton_Burduzha_CV.pdf"
+      class="block"
+      aria-label="Download CV"
+    >
+      <IconCV class="size-6 text-accent" />
+    </a>
+  )
+}

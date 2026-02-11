@@ -33,6 +33,7 @@ const homeCollection = defineCollection({
         })
         .optional(),
       githubUserName: z.string().optional(),
+      gitlabUserName: z.string().optional(),
     }),
 });
 

@@ -12,12 +12,14 @@ const home = await getCollection('home');
 let HomeContent;
 let homeAvatarImage;
 let githubUserName;
+let gitlabUserName;
 if (home.length > 0) {
   const homeEntry = home[0];
   const { Content } = await render(homeEntry);
   HomeContent = Content;
   homeAvatarImage = homeEntry.data.avatarImage;
   githubUserName = homeEntry.data.githubUserName;
+  gitlabUserName = homeEntry.data.gitlabUserName;
 }
 const sortedPosts = await getSortedPosts();
 ---
@@ -25,7 +27,11 @@ const sortedPosts = await getSortedPosts();
 <Layout>
   {
     HomeContent && (
-      <HomeBanner avatarImage={homeAvatarImage} githubUserName={githubUserName}>
+      <HomeBanner
+        avatarImage={homeAvatarImage}
+        githubUserName={githubUserName}
+        gitlabUserName={gitlabUserName}
+      >
         <HomeContent />
       </HomeBanner>
     )

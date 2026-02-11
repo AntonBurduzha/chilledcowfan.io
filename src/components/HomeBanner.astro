@@ -1,13 +1,14 @@
 ---
 import { Image } from 'astro:assets';
-import GitHubActivityCalendar from '~/components/GitHubActivityCalendar.astro';
+import ActivityCalendar from '~/components/ActivityCalendar.astro';
 import type { FrontmatterImage } from '~/types';
 
 interface Props {
   avatarImage?: FrontmatterImage;
   githubUserName?: string;
+  gitlabUserName?: string;
 }
-const { avatarImage, githubUserName } = Astro.props;
+const { avatarImage, githubUserName, gitlabUserName } = Astro.props;
 ---
 
 <div class="my-2 md:mx-2">
@@ -31,5 +32,9 @@ const { avatarImage, githubUserName } = Astro.props;
       </div>
     </div>
   </div>
-  {githubUserName && <GitHubActivityCalendar username={githubUserName} />}
+  {
+    githubUserName && (
+      <ActivityCalendar githubUserName={githubUserName} gitlabUsername={gitlabUserName} />
+    )
+  }
 </div>

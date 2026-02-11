@@ -1,0 +1,59 @@
+---
+
+---
+
+<div
+  id="activity-tooltip"
+  class="absolute bg-background color-foreground pointer-events-none border-1 border-solid border-foreground/10 opacity-0 transition-opacity duration-150 px-2 py-0.5 rounded text-xs whitespace-nowrap z-10"
+>
+</div>
+
+<script>
+  (function initTooltip() {
+    if (!window.matchMedia('(min-width: 1024px)').matches) return;
+
+    const calendar = document.getElementById('activity-calendar');
+    if (!calendar) return;
+
+    const tooltip = document.getElementById('activity-tooltip');
+    if (!tooltip) return;
+
+    const cells = calendar.querySelectorAll<SVGRectElement>('rect.activity-cell');
+
+    cells.forEach((cell) => {
+      cell.addEventListener('mouseenter', () => {
+        const date = cell.getAttribute('data-date');
+        const count = cell.getAttribute('data-count');
+        if (!date || count === null) return;
+
+        const formatted = new Date(date + 'T00:00:00').toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        });
+        const label = Number(count) === 1 ? 'contribution' : 'contributions';
+        tooltip.textContent = `${count} ${label} on ${formatted}`;
+        tooltip.style.opacity = '1';
+
+        // Position relative to the article (positioned ancestor)
+        const calendarRect = calendar.getBoundingClientRect();
+        const cellRect = cell.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+
+        let left =
+          cellRect.left - calendarRect.left + cellRect.width / 2 - tooltipRect.width / 2;
+        const top = cellRect.top - calendarRect.top - tooltipRect.height - 6;
+
+        // Clamp within article
+        left = Math.max(0, Math.min(left, calendarRect.width - tooltipRect.width));
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+      });
+
+      cell.addEventListener('mouseleave', () => {
+        tooltip.style.opacity = '0';
+      });
+    });
+  })();
+</script>
