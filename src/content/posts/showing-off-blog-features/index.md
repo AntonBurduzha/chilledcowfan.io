@@ -3,9 +3,6 @@ title: 'Showing Off Blog Features'
 published: 2025-07-20
 draft: false
 tags: ['astro', 'demo', 'markdown']
-coverImage:
-  src: './cover.jpg'
-  alt: 'A person with short, thick hair and prescription glasses sits at an organized workstation, using a magnification app to navigate a webpage. Their posture is proper and relaxed. On the desk: a computer, a mouse, a large desk lamp and a small notebook.'
 ---
 
 Since the post does not have a description in the frontmatter, the first paragraph is used.
@@ -73,24 +70,6 @@ _Italic text_
 
 ---
 
-## Images
-
-Images can include a title string after the URL to render as a `<figure>` with a `<figcaption>`.
-
-![Pixel art of a tree](./PixelatedGreenTreeSide.png 'Pixel art renders poorly without proper CSS')
-
-```md title="Pixel art markdown" wrap
-![Pixel art of a tree](./PixelatedGreenTreeSide.png 'Pixel art renders poorly without proper CSS')
-```
-
-I've also added a special tag for pixel art that adds the correct CSS to render properly. Just add `#pixelated` to the very end of the alt string.
-
-![Pixel art of a tree #pixelated](./PixelatedGreenTreeSide.png 'But adding #pixelated to the end of the alt string fixes this')
-
-```md title="Pixel art markdown with #pixelated" wrap
-![Pixel art of a tree #pixelated](./PixelatedGreenTreeSide.png 'But adding #pixelated to the end of the alt string fixes this')
-```
-
 ## Admonitions
 
 ```md title="Admonition example in markdown"
@@ -136,51 +115,3 @@ Good morning! :sleeping: :coffee: :pancakes:
 > ```
 >
 > At the time of writing, [emoji v16](https://emojipedia.org/emoji-16.0) is not supported yet. These emojis can be included literally but they do not have shortcodes and will not be wrapped.
-
-## HTML Elements
-
-<button>A Button</button>
-
-### Fieldset with Inputs
-
-<fieldset>
-    <input type="text" placeholder="Type something"><br>
-    <input type="number" placeholder="Insert number"><br>
-    <input type="text" value="Input value"><br>
-    <select>
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
-    </select><br>
-    <textarea placeholder="Insert a comment..."></textarea><br>
-    <label><input type="checkbox"> I understand<br></label>
-    <button type="submi">Submit</button>
-</fieldset>
-
-### Form with Labels
-
-<form>
-<label>
-    <input type="radio" name="fruit" value="apple">
-    Apple
-</label><br>
-
-<label>
-    <input type="radio" name="fruit" value="banana">
-    Banana
-</label><br>
-
-<label>
-    <input type="radio" name="fruit" value="orange">
-    Orange
-</label><br>
-
-<label>
-    <input type="radio" name="fruit" value="grape">
-    Grape
-</label><br>
-
-<label>
-    <input type="checkbox" name="terms" value="agree">
-    I agree to the terms and conditions
-</label><br>

@@ -2,16 +2,26 @@ import type { SiteConfig } from '~/types';
 
 const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
-  site: 'https://multiterm.stelclementine.com',
+  site: 'https://chilledcow.fan',
   // The name of your site, used in the title and for SEO.
   title: 'Chilledcow.fan',
   // The description of your site, used for SEO and RSS feed.
   description:
-    'A coder-ready Astro blog theme with 59 of your favorite color schemes to choose from',
+    'Personal website by Anton Burduzha — a senior software engineer sharing deep dives into web development',
   // The author of the site, used in the footer, SEO, and RSS feed.
-  author: 'Katy Kookaburra',
+  author: 'Anton Burduzha',
   // Keywords for SEO, used in the meta tags.
-  tags: ['Astro', 'Terminal', 'Theme', 'MultiTerm', 'stelcodes'],
+  tags: [
+    'JavaScript',
+    'TypeScript',
+    'React',
+    'Next.js',
+    'Frontend Development',
+    'Software Engineering',
+    'Web Development',
+    'Programming Tutorials',
+    'Tech Blog',
+  ],
   // Path to the image used for generating social media previews.
   // Needs to be a square JPEG file due to limitations of the social card generator.
   // Try https://squoosh.app/ to easily convert images to JPEG.

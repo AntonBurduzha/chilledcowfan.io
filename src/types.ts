@@ -25,16 +25,6 @@ export type GitHubActivityMonthLabel = {
   weekIndex: number;
   label: string;
 };
-
-export interface TocItem extends MarkdownHeading {
-  children: TocItem[];
-}
-
-export interface TocOpts {
-  maxHeadingLevel?: number | undefined;
-  minHeadingLevel?: number | undefined;
-}
-
 export interface FrontmatterImage {
   alt: string;
   src: {

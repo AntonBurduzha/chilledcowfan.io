@@ -15,15 +15,13 @@ const fontPath = path.resolve(
 const fontData = fs.readFileSync(fontPath); // Reads the file as a Buffer
 
 const avatarPath = path.resolve(siteConfig.socialCardAvatarImage);
-let avatarData: Buffer | undefined;
 let avatarBase64: string | undefined;
 if (
   fs.existsSync(avatarPath) &&
   (path.extname(avatarPath).toLowerCase() === '.jpg' ||
     path.extname(avatarPath).toLowerCase() === '.jpeg')
 ) {
-  avatarData = fs.readFileSync(avatarPath);
-  avatarBase64 = `data:image/jpeg;base64,${avatarData.toString('base64')}`;
+  avatarBase64 = `data:image/jpeg;base64,${fs.readFileSync(avatarPath).toString('base64')}`;
 }
 
 const defaultTheme = siteConfig.themes.default;
@@ -54,20 +52,27 @@ const ogOptions: SatoriOptions = {
   width: 1200,
 };
 
-const markup = (title: string, pubDate: string | undefined, author: string) =>
-  html(`<div tw="flex flex-col max-w-full justify-center h-full bg-[${bg}] text-[${fg}] p-12">
-    <div style="border-width: 12px; border-radius: 80px;" tw="flex items-center max-w-full p-8 border-[${accent}]/30">
-      ${
-        avatarBase64
-          ? `<div tw="flex flex-col justify-center items-center w-1/3 h-100">
-            <img src="${avatarBase64}" tw="flex w-full rounded-full border-[${accent}]/30" />
-        </div>`
-          : ''
-      }
-      <div tw="flex flex-1 flex-col max-w-full justify-center items-center">
-        ${pubDate ? `<p tw="text-3xl max-w-full text-[${accent}]">${pubDate}</p>` : ''}
-        <h1 tw="text-6xl my-14 text-center leading-snug">${title}</h1>
-        ${author !== title ? `<p tw="text-4xl text-[${accent}]">${author}</p>` : ''}
+const markupHome = (title: string, author: string) =>
+  html(`<div tw="flex w-full h-full items-center justify-center bg-[${bg}] text-[${fg}] p-12">
+    <div style="border-width: 10px; border-radius: 60px;" tw="flex items-center px-16 py-12 border-[${accent}]/30">
+      ${avatarBase64 ? `<img src="${avatarBase64}" tw="w-48 h-48 rounded-full mr-12" style="border-width: 4px; border-color: ${accent}40;" />` : ''}
+      <div tw="flex flex-col">
+        <h1 tw="text-7xl m-0">${title}</h1>
+        <p tw="text-4xl mt-6 text-[${accent}]">${author}</p>
+      </div>
+    </div>
+  </div>`);
+
+const markupPost = (title: string, pubDate: string | undefined, author: string) =>
+  html(`<div tw="flex flex-col w-full h-full bg-[${bg}] text-[${fg}] p-12">
+    <div style="border-width: 10px; border-radius: 60px;" tw="flex flex-col flex-1 justify-between px-16 py-12 border-[${accent}]/30">
+      <div tw="flex flex-col">
+        ${pubDate ? `<p tw="text-3xl text-[${accent}]">${pubDate}</p>` : ''}
+        <h1 tw="text-5xl leading-snug mt-4">${title}</h1>
+      </div>
+      <div tw="flex items-center">
+        ${avatarBase64 ? `<img src="${avatarBase64}" tw="w-20 h-20 rounded-full mr-6" />` : ''}
+        <p tw="text-3xl text-[${accent}]">${author}</p>
       </div>
     </div>
   </div>`);
@@ -76,9 +81,13 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 export async function GET(context: APIContext) {
   const { pubDate, title, author } = context.props as Props;
-  const svg = await satori(markup(title, pubDate, author) as ReactNode, ogOptions);
+  const node = !pubDate ? markupHome(title, author) : markupPost(title, pubDate, author);
+  const svg = await satori(node as ReactNode, {
+    ...ogOptions,
+    ...((!pubDate && { height: 360, width: 1040 }) as Partial<SatoriOptions>),
+  });
   const png = new Resvg(svg).render().asPng();
-  return new Response(png, {
+  return new Response(new Uint8Array(png), {
     headers: {
       'Cache-Control': 'public, max-age=31536000, immutable',
       'Content-Type': 'image/png',
@@ -100,7 +109,11 @@ export async function getStaticPaths() {
     .concat([
       {
         params: { slug: '__default' },
-        props: { pubDate: undefined, title: siteConfig.title, author: siteConfig.author },
+        props: {
+          pubDate: undefined,
+          title: siteConfig.title,
+          author: siteConfig.author,
+        },
       },
     ]);
 }
