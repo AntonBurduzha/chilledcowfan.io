@@ -2,9 +2,9 @@ import type { SiteConfig } from '~/types';
 
 const config: SiteConfig = {
   // Absolute URL to the root of your published site, used for generating links and sitemaps.
-  site: 'https://chilledcow.fan',
+  site: 'https://chilledcowfan.io',
   // The name of your site, used in the title and for SEO.
-  title: 'Chilledcow.fan',
+  title: 'chilledcowfan.io',
   // The description of your site, used for SEO and RSS feed.
   description:
     'Personal website by Anton Burduzha — a senior software engineer sharing deep dives into web development',
