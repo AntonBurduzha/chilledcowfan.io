@@ -3,7 +3,7 @@ import { Resvg } from '@resvg/resvg-js';
 import type { APIContext, InferGetStaticPropsType } from 'astro';
 import satori, { type SatoriOptions } from 'satori';
 import { html } from 'satori-html';
-import { dateString, getSortedPosts, resolveThemeColorStyles } from '~/utils';
+import { resolveThemeColorStyles } from '~/utils';
 import path from 'path';
 import fs from 'fs';
 import type { ReactNode } from 'react';
@@ -48,13 +48,13 @@ const ogOptions: SatoriOptions = {
       weight: 400,
     },
   ],
-  height: 630,
-  width: 1200,
+  height: 360,
+  width: 1040,
 };
 
 const markupHome = (title: string, author: string) =>
-  html(`<div tw="flex w-full h-full items-center justify-center bg-[${bg}] text-[${fg}] p-12">
-    <div style="border-width: 10px; border-radius: 60px;" tw="flex items-center px-16 py-12 border-[${accent}]/30">
+  html(`<div tw="flex w-full h-full items-center justify-center bg-[${bg}] text-[${fg}] py-10 px-20">
+    <div style="border-width: 10px; border-radius: 60px;" tw="flex items-center px-10 py-10 border-[${accent}]/30">
       ${avatarBase64 ? `<img src="${avatarBase64}" tw="w-48 h-48 rounded-full mr-12" style="border-width: 4px; border-color: ${accent}40;" />` : ''}
       <div tw="flex flex-col">
         <h1 tw="text-7xl m-0">${title}</h1>
@@ -63,57 +63,31 @@ const markupHome = (title: string, author: string) =>
     </div>
   </div>`);
 
-const markupPost = (title: string, pubDate: string | undefined, author: string) =>
-  html(`<div tw="flex flex-col w-full h-full bg-[${bg}] text-[${fg}] p-12">
-    <div style="border-width: 10px; border-radius: 60px;" tw="flex flex-col flex-1 justify-between px-16 py-12 border-[${accent}]/30">
-      <div tw="flex flex-col">
-        ${pubDate ? `<p tw="text-3xl text-[${accent}]">${pubDate}</p>` : ''}
-        <h1 tw="text-5xl leading-snug mt-4">${title}</h1>
-      </div>
-      <div tw="flex items-center">
-        ${avatarBase64 ? `<img src="${avatarBase64}" tw="w-20 h-20 rounded-full mr-6" />` : ''}
-        <p tw="text-3xl text-[${accent}]">${author}</p>
-      </div>
-    </div>
-  </div>`);
-
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 export async function GET(context: APIContext) {
-  const { pubDate, title, author } = context.props as Props;
-  const node = !pubDate ? markupHome(title, author) : markupPost(title, pubDate, author);
-  const svg = await satori(node as ReactNode, {
-    ...ogOptions,
-    ...((!pubDate && { height: 360, width: 1040 }) as Partial<SatoriOptions>),
-  });
+  const { title, author } = context.props as Props;
+  const node = markupHome(title, author);
+  const svg = await satori(node as ReactNode, ogOptions);
   const png = new Resvg(svg).render().asPng();
   return new Response(new Uint8Array(png), {
     headers: {
-      'Cache-Control': 'public, max-age=31536000, immutable',
+      'Cache-Control': import.meta.env.PROD
+        ? 'public, max-age=31536000, immutable'
+        : 'no-cache',
       'Content-Type': 'image/png',
     },
   });
 }
 
 export async function getStaticPaths() {
-  const posts = await getSortedPosts();
-  return posts
-    .map((post) => ({
-      params: { slug: post.id },
+  return [
+    {
+      params: { slug: '__default' },
       props: {
-        pubDate: post.data.published ? dateString(post.data.published) : undefined,
-        title: post.data.title,
-        author: post.data.author || siteConfig.author,
+        title: siteConfig.title,
+        author: siteConfig.author,
       },
-    }))
-    .concat([
-      {
-        params: { slug: '__default' },
-        props: {
-          pubDate: undefined,
-          title: siteConfig.title,
-          author: siteConfig.author,
-        },
-      },
-    ]);
+    },
+  ];
 }
