@@ -611,3 +611,9 @@ article img {
     @apply border-accent cursor-pointer;
   }
 }
+
+div.bio {
+  p {
+    @apply text-sm;
+  }
+}

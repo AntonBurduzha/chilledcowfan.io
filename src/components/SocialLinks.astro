@@ -5,6 +5,7 @@ import IconLinkedin from '~/icons/linkedin.svg';
 import IconEmail from '~/icons/email.svg';
 import IconX from '~/icons/x.svg';
 import IconRss from '~/icons/rss.svg';
+import IconLeetcode from '~/icons/leet-code.svg';
 
 interface Props {
   socialLinks: SocialLinks;
@@ -24,6 +25,19 @@ const { socialLinks } = Astro.props;
       >
         <span class="sr-only">GitHub</span>
         <IconGithub class="size-7" />
+      </a>
+    )
+  }
+  {
+    socialLinks.leetcode && (
+      <a
+        href={socialLinks.leetcode}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="social-link"
+      >
+        <span class="sr-only">LeetCode</span>
+        <IconLeetcode class="size-7" />
       </a>
     )
   }

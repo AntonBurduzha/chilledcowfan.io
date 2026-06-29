@@ -57,6 +57,7 @@ const config: SiteConfig = {
   },
   socialLinks: {
     github: 'https://github.com/AntonBurduzha',
+    leetcode: 'https://leetcode.com/u/antonburduzha/',
     email: 'anton.burduzha@gmail.com',
     linkedin: 'https://www.linkedin.com/in/anton-burduzha/',
     x: 'https://x.com/chilledcowfan',

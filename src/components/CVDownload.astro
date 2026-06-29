@@ -2,13 +2,13 @@
 import fs from 'node:fs';
 import IconCV from '~/icons/cv.svg';
 
-const cvExists = fs.existsSync('public/cv.pdf');
+const cvExists = fs.existsSync('public/Anton_Burduzha_CV.pdf');
 ---
 
 {
   cvExists && (
     <a
-      href="/cv.pdf"
+      href="/Anton_Burduzha_CV.pdf"
       download="Anton_Burduzha_CV.pdf"
       class="block"
       aria-label="Download CV"

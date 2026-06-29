@@ -124,6 +124,7 @@ export interface ThemesConfig {
 
 export type SocialLinks = {
   github?: string;
+  leetcode?: string;
   x?: string;
   linkedin?: string;
   email?: string;
